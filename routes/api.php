@@ -41,3 +41,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/postBy/{id}', [\App\Http\Controllers\OneToManyController::class, 'OneToMany']);
+
+Route::group(['middleware' => ['auth:flower']], function(){
+    Route::post('/post', [\App\Http\Controllers\PostController::class, 'store']);
+});
