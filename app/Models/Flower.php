@@ -29,4 +29,8 @@ class Flower extends Model
         return $this->hasMany('App\Models\Post');
     }
 
+    public function Comment(){
+
+        return $this->hasMany('App\Models\Comment');
+    }
 }

@@ -14,4 +14,8 @@ class Post extends Model
         // 不同的 posts 為同一個 flower發布的
         return $this->belongsTo('App\Models\Flower');
     }
+
+    public function comment(){
+        return $this->hasMany('App\Models\Comment');
+    }
 }

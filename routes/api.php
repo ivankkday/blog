@@ -40,4 +40,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/flower/onetomany/{id}', [\App\Http\Controllers\OneToManyController::class, 'OneToMany']);
+Route::get('/postBy/{id}', [\App\Http\Controllers\OneToManyController::class, 'OneToMany']);
