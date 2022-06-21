@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class PostController extends Controller
 {
@@ -15,7 +16,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        return response(['msg' =>Post::get()]);
     }
 
     /**
@@ -66,7 +67,15 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        //
+        $flower_id=$id;
+        $post =Post::where('flower_id',$flower_id)->get();
+
+        if(!is_null($post)) {
+            return response(['data' => $post]);
+        }
+        else {
+        return response(['message' => 'Post not found']);
+        }
     }
 
     /**
@@ -90,6 +99,20 @@ class PostController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $post = Post::find($id);
+        $flower_id=Auth::user()->id;   
+        // 提取當前使用者的 id  
+        if($post == null){
+            return response((['msg' => '留言不存在']));
+        }
+        if ($flower_id == $post->flower_id ){
+            $update = $post->update($request->only(['title','content']));
+
+            return response(['msg' => '留言內容已更新', 'data' => $update]);
+
+        } else {
+            return response(['msg' => '留言更新失敗']);
+        }
     }
 
     /**
@@ -100,6 +123,16 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $post = Post::find($id);
+        $flower_id=Auth::user()->id;
+
+        if($post == null){
+            return response((['msg' => '留言不存在']));
+        }
+        if($flower_id == $post->flower_id){
+            $post->delete();
+            return response(['msg' => '留言已刪除']);
+        }
+        return response(['msg' => '留言刪除失敗']);
     }
 }
