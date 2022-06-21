@@ -40,6 +40,17 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+
+        'flower' => [
+            'driver' => 'token',        // 使用 token 當作入門票
+            'provider' => 'flowers',   
+            'hash' => false,
+        ],
+        'admin' => [
+            'driver' => 'token',        // 使用 token 當作入門票
+            'provider' => 'admin',   
+            'hash' => false,
+        ],
     ],
 
     /*
@@ -69,6 +80,14 @@ return [
         //     'driver' => 'database',
         //     'table' => 'users',
         // ],
+        'flowers' => [
+            'driver' => 'eloquent',          // 參照 eloquent 建立的 model
+            'model' => App\Models\Flower::class,    // 對應 app/Flower.php 檔案內的 class 
+        ],
+        'admins' => [
+            'driver' => 'eloquent',          // 參照 eloquent 建立的 model
+            'model' => App\Models\Admin::class,    // 對應 app/Flower.php 檔案內的 class 
+        ],
     ],
 
     /*
