@@ -10,7 +10,7 @@ class Post extends Model
     use SoftDeletes;
     protected $fillable = ['title', 'content', 'flower_id'];
     protected $casts = [
-        'likes' => 'collection'
+        'likes' => 'array'
     ];
     public function flower()
     {

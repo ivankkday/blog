@@ -49,6 +49,7 @@ class PostController extends Controller
             'title' => $request['title'],
             'content' => $request['content'],
             'flower_id' => $flower_id,
+            'likes' => [],
         ]);
 
         $flower_name= Auth::user()->name;
@@ -76,6 +77,21 @@ class PostController extends Controller
         else {
         return response(['message' => 'Post not found']);
         }
+    }
+
+    public function search($content){
+        $post = Post::all();
+        $inTitle = $post->filter(function($item) use($content){
+            return str_contains($item->title, $content);
+        });
+        $inContent = $post->filter(function($item) use($content){
+            return str_contains($item->content, $content);
+        });
+        $response = $inTitle->merge($inContent)
+                            ->sortBy(function($item){
+                                return count($item->likes);
+                            });
+        return response(['data' => $inTitle]);
     }
 
     /**
