@@ -9,7 +9,9 @@ class Post extends Model
 {
     use SoftDeletes;
     protected $fillable = ['title', 'content', 'flower_id'];
-
+    protected $casts = [
+        'likes' => 'collection'
+    ];
     public function flower()
     {
         // 不同的 posts 為同一個 flower發布的

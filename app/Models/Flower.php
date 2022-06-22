@@ -22,7 +22,7 @@ class Flower extends Model
         return $this->hasOne('App\Models\Profile'); 
     }
 
-    public function Post()
+    public function post()
     {
         // 每種 flowers 有數種 nutrients
         // 締結 單一 Flower 對 多 Nutrient 的關係(正向)
