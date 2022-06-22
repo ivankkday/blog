@@ -88,10 +88,10 @@ class PostController extends Controller
             return str_contains($item->content, $content);
         });
         $response = $inTitle->merge($inContent)
-                            ->sortBy(function($item){
+                            ->sortByDesc(function($item){
                                 return count($item->likes);
                             });
-        return response(['data' => $inTitle]);
+        return response(['data' => $response]);
     }
 
     /**
