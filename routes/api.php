@@ -50,3 +50,7 @@ Route::group(['middleware' => ['auth:flower']], function(){
 
 Route::get('/post/index', [\App\Http\Controllers\PostController::class, 'index']);
 Route::get('/post/show/{id}', [\App\Http\Controllers\PostController::class, 'show']);
+
+Route::group(['middleware' => ['auth:flower']], function(){
+    Route::post('/like/{id}', [\App\Http\Controllers\LikeController::class, 'like']);
+});
