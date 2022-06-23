@@ -5,18 +5,17 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Flower;
-use App\Models\Profile;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\DB;
+use App\Services\FlowerService;
 
 class FlowerController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
+    private $flowerService;
+
+    public function __construct(FlowerService $flowerService){
+        $this->flowerService = $flowerService;
+    }
+
     public function index()
     {
         return Flower::with('profile')->get();
@@ -40,21 +39,23 @@ class FlowerController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([//驗證規則
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'unique:flowers'],
-            'password' => ['required', 'string', 'min:8','max:12'],
-        ]);
-        $api_token= Str::random(10);//隨機token驗證用
-        $Create=Flower::create([
-            'name' =>$request['name'],
-            'email' =>$request['email'],
-            'password' => $request['password'],
-            'api_token' => $api_token,
-        ]);
+        // $request->validate([//驗證規則
+        //     'name' => ['required', 'string', 'max:255'],
+        //     'email' => ['required', 'string', 'email', 'unique:flowers'],
+        //     'password' => ['required', 'string', 'min:8','max:12'],
+        // ]);
+        // $api_token= Str::random(10);//隨機token驗證用
+        // $Create=Flower::create([
+        //     'name' =>$request['name'],
+        //     'email' =>$request['email'],
+        //     'password' => $request['password'],
+        //     'api_token' => $api_token,
+        // ]);
 
-        if ($Create)
-            return "註冊成功...$api_token";
+        $Create = $this->flowerService->create($request);
+
+        if($Create)
+            return "註冊成功...$Create->api_token";
     }
 
     /**

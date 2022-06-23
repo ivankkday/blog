@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Flower extends Model
 {
     use HasFactory;
+    
     protected $fillable = [          // 使用批量分配（ Mass Assignment ）的填充白名單
         'name', 'email', 'password', 'api_token'
     ];
