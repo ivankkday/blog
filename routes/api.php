@@ -18,7 +18,7 @@ Route::post('/flower',[\App\Http\Controllers\FlowerController::class, 'store']);
 
 Route::post('/flower/login',[\App\Http\Controllers\FlowerLoginController::class,'FlowerLogin']);//登入
 Route::get('/flower', [\App\Http\Controllers\FlowerController::class, 'index']);
-Route::get('/flower{id}', [\App\Http\Controllers\FlowerLoginController::class,'show']);
+Route::get('/flower/{id}', [\App\Http\Controllers\FlowerLoginController::class,'show']);
 
 Route::group(['middleware' => ['auth:api']], function(){
     Route::put('/flower', [\App\Http\Controllers\FlowerLoginController::class,'update']);

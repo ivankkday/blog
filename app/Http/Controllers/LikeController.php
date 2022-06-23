@@ -18,12 +18,10 @@ class LikeController extends Controller
             $post->save();
             return response(['msg' => '已按讚']);
         }
-        else{
-            $post->likes = $likeCollection->reject(function($element)use($flower_id){
-                return $element == $flower_id;
-            });
-            $post->save();
-            return response(['msg' => '已取消按讚']);
-        }
+        $post->likes = $likeCollection->reject(function($element)use($flower_id){
+            return $element == $flower_id;
+        });
+        $post->save();
+        return response(['msg' => '已取消按讚']);
     }
 }
