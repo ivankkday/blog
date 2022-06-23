@@ -47,7 +47,7 @@ class AutoPost extends Command
         for($x = 0; $x <= $num; $x++){
             $title = 'title' .' '. Str::random(10);
             $content = 'content' .' '. Str::random(10);
-            $response = Http::withToken(array_rand($apiTokens))
+            $response = Http::withToken($apiTokens[array_rand($apiTokens)])
             ->post('http://blog.test/api/post', [
                 'form_params'=>[
                     'title'=> $title,
