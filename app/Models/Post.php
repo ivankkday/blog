@@ -21,4 +21,8 @@ class Post extends Model
     public function comment(){
         return $this->hasMany('App\Models\Comment');
     }
+
+    // public function where($key, $value){
+    //     return Post::where($key, $value);
+    // }
 }

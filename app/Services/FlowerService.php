@@ -4,6 +4,7 @@ namespace App\Services;
 use App\Models\Flower;
 use APP\Repositories\FlowerRepository;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 
 class FlowerService{
     private $flowerRepo;
@@ -19,7 +20,19 @@ class FlowerService{
             'password' => ['required', 'string', 'min:6','max:12'],
         ]);
         $api_token= Str::random(10);//隨機token驗證用
-        $Create = $this->flowerRepo->create($request->all(), $api_token);
+        $Create = $this->flowerRepo->create($request, $api_token);
         return $Create;
+    }
+
+    public function update($request){
+        $request->validate([
+            'name',
+            'email' => 'unique:users|email',
+            'password',
+        ]);
+
+        Auth::user()->update($request->all());
+
+        echo  '資料修改成功，以下爲修改結果';
     }
 }

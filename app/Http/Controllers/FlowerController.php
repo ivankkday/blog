@@ -39,19 +39,6 @@ class FlowerController extends Controller
      */
     public function store(Request $request)
     {
-        // $request->validate([//驗證規則
-        //     'name' => ['required', 'string', 'max:255'],
-        //     'email' => ['required', 'string', 'email', 'unique:flowers'],
-        //     'password' => ['required', 'string', 'min:8','max:12'],
-        // ]);
-        // $api_token= Str::random(10);//隨機token驗證用
-        // $Create=Flower::create([
-        //     'name' =>$request['name'],
-        //     'email' =>$request['email'],
-        //     'password' => $request['password'],
-        //     'api_token' => $api_token,
-        // ]);
-
         $Create = $this->flowerService->create($request);
 
         if($Create)
@@ -89,15 +76,7 @@ class FlowerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'name',
-            'email' => 'unique:users|email',
-            'password',
-        ]);
-
-        Auth::user()->update($request->all());
-
-        echo  '資料修改成功，以下爲修改結果';
+        $this->flowerService->update($request);
         return  $request->all();
     }
 
