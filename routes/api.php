@@ -34,7 +34,6 @@ Route::group(['middleware' => ['auth:api']], function(){
     Route::get('/admin', [\App\Http\Controllers\AdminLoginController::class,'show']);
     Route::put('/admin', [\App\Http\Controllers\AdminLoginController::class,'update']);
     Route::delete('/admin/{id}', [\App\Http\Controllers\AdminLoginController::class,'destroy']);
-    // Route::get('/flower','FlowerLogoutController@FlowerLogout');
 });
  
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

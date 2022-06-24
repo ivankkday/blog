@@ -9,8 +9,11 @@ class Post extends Model
 {
     use SoftDeletes;
     protected $fillable = ['title', 'content', 'flower_id'];
-    protected $casts = [
-        'likes' => 'collection'
+    // protected $casts = [
+    //     'likes' => 'collection'
+    // ];
+    protected $attributes = [
+        'likes' => []
     ];
     public function flower()
     {
@@ -21,8 +24,4 @@ class Post extends Model
     public function comment(){
         return $this->hasMany('App\Models\Comment');
     }
-
-    // public function where($key, $value){
-    //     return Post::where($key, $value);
-    // }
 }

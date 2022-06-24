@@ -2,15 +2,15 @@
 namespace App\Services;
 
 use App\Models\Flower;
-use APP\Repositories\FlowerRepository;
+use App\Repositories\FlowerRepository;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 
 class FlowerService{
     private $flowerRepo;
 
-    public function __construct(FlowerRepository $flowerRepository){
-        $this->flowerRepo = $flowerRepository;
+    public function __construct(){
+        $this->flowerRepo = new FlowerRepository();
     }
 
     public function create($request){
@@ -34,5 +34,18 @@ class FlowerService{
         Auth::user()->update($request->all());
 
         echo  '資料修改成功，以下爲修改結果';
+    }
+
+    public function flowerLogin($request){
+        $flower = Flower::where([
+            'email' => $request->FEmail,
+            'password' => $request->FPassword
+            ])->first();
+
+        $apiToken = Str::random(10);
+        if ($flower->update(['api_token'=>$apiToken])) {         
+                              //  update api_token
+            return "login as Flower, your api token is $apiToken";
+        }
     }
 }

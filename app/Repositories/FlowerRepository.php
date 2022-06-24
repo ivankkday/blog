@@ -2,19 +2,18 @@
 namespace App\Repositories;
 
 use App\Models\Flower;
-use Illuminate\Support\Str;
 
 class FlowerRepository{
 
     private $flower;
 
-    public function __construct(Flower $flower)
+    public function __construct()
     {
-        $this->flower = $flower;
+        $this->flower = new Flower();
     }
 
     public function create($request, $api_token){
-        $Create= $this->flower->save([
+        $Create= Flower::create([
             'name' =>$request['name'],
             'email' =>$request['email'],
             'password' => $request['password'],

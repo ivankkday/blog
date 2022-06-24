@@ -8,11 +8,11 @@ class PostService{
 
     private $postRepo;
 
-    public function __construct(PostRepository $postRepository){
-        $this->postRepo = $postRepository;
+    public function __construct(){
+        $this->postRepo = new PostRepository();
     }
 
-    public function create($request){
+    public function store($request){
         $request->validate([
             'title' => 'required|string|min:2|max:200',       // 標題要求格式或限制
             'content' => 'required|string|min:2|max:1000'     // 內文要求格式或限制
@@ -55,5 +55,24 @@ class PostService{
             return response(['msg' => '留言已刪除']);
         }
         return response(['msg' => '留言刪除失敗']);
+    }
+
+    public function like($id){
+        $post = Post::find($id);
+        $flower_id=Auth::user()->id;
+        $likeCollection = collect($post->likes);
+        if(!$likeCollection->contains($flower_id)){
+            $likeCollection->push($flower_id);
+            $post->likes = $likeCollection;
+            $post->save();
+            return response(['msg' => '已按讚']);
+        }
+        else{
+            $post->likes = $likeCollection->reject(function($element)use($flower_id){
+                return $element == $flower_id;
+            });
+            $post->save();
+            return response(['msg' => '已取消按讚']);
+        }
     }
 }
