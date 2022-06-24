@@ -8,13 +8,13 @@ class PostRepository{
 
     private $post;
 
-    public function __construct(Post $post)
+    public function __construct()
     {
-        $this->post = $post;
+        $this->post = new Post();
     }
 
     public function create($request, $flower_id){
-        $Create= $this->post->save([
+        $Create = Post::create([
             'title' => $request['title'],
             'content' => $request['content'],
             'flower_id' => $flower_id,

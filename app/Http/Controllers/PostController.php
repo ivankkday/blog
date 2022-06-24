@@ -38,7 +38,7 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $Create = $this->postService->create($request);
+        $Create = $this->postService->store($request);
         $flower_name= Auth::user()->name;
         $msg = $request->only(['title','content']);    
         if ($Create)

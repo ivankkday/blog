@@ -8,16 +8,21 @@ class PostService{
 
     private $postRepo;
 
-    public function __construct(PostRepository $postRepository){
-        $this->postRepo = $postRepository;
+    public function __construct(){
+        $this->postRepo = new PostRepository();
     }
 
-    public function create($request){
+    public function store($request){
         $request->validate([
             'title' => 'required|string|min:2|max:200',       // 標題要求格式或限制
             'content' => 'required|string|min:2|max:1000'     // 內文要求格式或限制
         ]);
         $flower_id = Auth::user()->id;     // Auth::user()->使用者某欄資料
+        $Create = $this->postRepo->create($request, $flower_id);
+        return $Create;
+    }
+    public function create($request, $id){
+        $flower_id = $id;
         $Create = $this->postRepo->create($request, $flower_id);
         return $Create;
     }
