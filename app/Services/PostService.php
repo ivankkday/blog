@@ -3,6 +3,7 @@ namespace App\Services;
 use App\Repositories\PostRepository;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Post;
+use Illuminate\Support\Facades\Storage;
 
 class PostService{
 
@@ -24,6 +25,7 @@ class PostService{
     public function create($request, $id){
         $flower_id = $id;
         $Create = $this->postRepo->create($request, $flower_id);
+        Storage::prepend('newfile.txt', $Create);
         return $Create;
     }
 

@@ -66,9 +66,6 @@ class AutoPost extends Command
             //         'content'=> $content
             //     ]
             // ])->body();
-            $myfile = fopen("newfile.txt", "w") or die("Unable to open file!");
-            fwrite($myfile, $response);
-            fclose($myfile);
         }
         return 0;
     }

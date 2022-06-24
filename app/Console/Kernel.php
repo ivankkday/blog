@@ -4,6 +4,8 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 
 class Kernel extends ConsoleKernel
 {
@@ -16,6 +18,15 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
+        $schedule->call(function () {
+            if(Storage::exists('newfile.txt')){
+                $newLog = Storage::get('newfile.txt');
+                Storage::delete('newfile.txt');
+                Log::info("\n{$newLog}");
+            }else{
+                Log::info("\nno new post");
+            }
+        })->everyMinute();
     }
 
     /**
