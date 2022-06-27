@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use App\Services\PostService;
 
 class LikeController extends Controller {
@@ -12,8 +13,8 @@ class LikeController extends Controller {
     }
     
     public function like($id){
-
-        $response = $this->postService->like($id);
+        $flower_id=Auth::user()->id;
+        $response = $this->postService->like($id, $flower_id);
         return $response;
     }
 }

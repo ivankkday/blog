@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use App\Models\Flower;
 use App\Services\FlowerService;
 
 class FlowerController extends Controller
@@ -18,17 +16,7 @@ class FlowerController extends Controller
 
     public function index()
     {
-        return Flower::with('profile')->get();
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return $this->flowerService->index();
     }
 
     /**
@@ -39,32 +27,14 @@ class FlowerController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([//驗證規則
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'unique:flowers'],
+            'password' => ['required', 'string', 'min:6','max:12'],
+        ]);
         $Create = $this->flowerService->create($request);
-
         if($Create)
             return "註冊成功...$Create->api_token";
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        return Auth::user();
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
     }
 
     /**
@@ -74,8 +44,14 @@ class FlowerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'name',
+            'email' => 'unique:users|email',
+            'password',
+        ]);
         $this->flowerService->update($request);
         return  $request->all();
     }
@@ -88,12 +64,6 @@ class FlowerController extends Controller
      */
     public function destroy($id)
     {
-        $flower = Flower::where('id',$id);
-        if ($flower && $flower -> delete()){
-            return 'Flower deleted successfully';
-        }
-        else{
-            return '未成功刪除';
-        }
+        return $this->flowerService->destroy($id);
     }
 }
