@@ -10,6 +10,10 @@ class PostService{
         $this->postRepo = $postRepo;
     }
 
+    public function index(){
+        return $this->postRepo->index();
+    }
+
     public function store($request, $flower_id){
         $Create = $this->postRepo->create($request, $flower_id);
         return $Create;

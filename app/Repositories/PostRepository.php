@@ -31,4 +31,8 @@ class PostRepository{
             ->where('flower_id', $id)
             ->get();
     }
+
+    public function index(){
+        return $this->post->all();
+    }
 }

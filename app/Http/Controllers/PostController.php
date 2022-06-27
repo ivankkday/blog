@@ -17,7 +17,7 @@ class PostController extends Controller
 
     public function index()
     {
-        return response(['msg' =>Post::get()]);
+        return response(['msg' => $this->postService->index()]);
     }
 
     /**
