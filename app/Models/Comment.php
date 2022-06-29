@@ -15,9 +15,9 @@ class Comment extends Model
         return $this->belongsTo('App\Models\Post');
     }
 
-    public function flower()
+    public function user()
     {
-        // 不同的 comments 為同一個 flower發布的
-        return $this->belongsTo('App\Models\Flower');
+        // 不同的 comments 為同一個 user發布的
+        return $this->belongsTo('App\Models\User');
     }
 }

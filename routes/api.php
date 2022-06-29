@@ -13,28 +13,28 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-// Flower就是User
-Route::post('/flower',[\App\Http\Controllers\FlowerController::class, 'store']);//註冊
+// User就是User
+Route::post('/user',[\App\Http\Controllers\UserController::class, 'store']);//註冊
 
-Route::post('/flower/login',[\App\Http\Controllers\FlowerLoginController::class,'FlowerLogin']);//登入
-Route::get('/flower', [\App\Http\Controllers\FlowerController::class, 'index']);
-Route::get('/flower{id}', [\App\Http\Controllers\FlowerLoginController::class,'show']);
+Route::post('/user/login',[\App\Http\Controllers\UserLoginController::class,'UserLogin']);//登入
+Route::get('/user', [\App\Http\Controllers\UserController::class, 'index']);
+Route::get('/user{id}', [\App\Http\Controllers\UserLoginController::class,'show']);
 
 Route::group(['middleware' => ['auth:api']], function(){
-    Route::put('/flower', [\App\Http\Controllers\FlowerLoginController::class,'update']);
-    Route::delete('/flower/{id}', [\App\Http\Controllers\FlowerLoginController::class,'destroy']);
-    // Route::get('/flower','FlowerLogoutController@FlowerLogout');
+    Route::put('/user', [\App\Http\Controllers\UserLoginController::class,'update']);
+    Route::delete('/user/{id}', [\App\Http\Controllers\UserLoginController::class,'destroy']);
+    // Route::get('/user','UserLogoutController@UserLogout');
  });
 
 Route::post('/admin',[\App\Http\Controllers\AdminController::class, 'store']);//註冊
 
-Route::post('/admin/login',[\App\Http\Controllers\FlowerLoginController::class,'FlowerLogin']);//登入
+Route::post('/admin/login',[\App\Http\Controllers\UserLoginController::class,'UserLogin']);//登入
 
 Route::group(['middleware' => ['auth:api']], function(){
     Route::get('/admin', [\App\Http\Controllers\AdminLoginController::class,'show']);
     Route::put('/admin', [\App\Http\Controllers\AdminLoginController::class,'update']);
     Route::delete('/admin/{id}', [\App\Http\Controllers\AdminLoginController::class,'destroy']);
-    // Route::get('/flower','FlowerLogoutController@FlowerLogout');
+    // Route::get('/user','UserLogoutController@UserLogout');
 });
  
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
@@ -43,7 +43,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('/postBy/{id}', [\App\Http\Controllers\OneToManyController::class, 'OneToMany']);
 
-Route::group(['middleware' => ['auth:flower']], function(){
+Route::group(['middleware' => ['auth:user']], function(){
     Route::post('/post', [\App\Http\Controllers\PostController::class, 'store']);
     Route::put('/post/update/{id}', [\App\Http\Controllers\PostController::class, 'update']);
     Route::delete('/post/update/{id}', [\App\Http\Controllers\PostController::class, 'destroy']);
@@ -52,6 +52,6 @@ Route::group(['middleware' => ['auth:flower']], function(){
 Route::get('/post/index', [\App\Http\Controllers\PostController::class, 'index']);
 Route::get('/post/show/{id}', [\App\Http\Controllers\PostController::class, 'show']);
 
-Route::group(['middleware' => ['auth:flower']], function(){
+Route::group(['middleware' => ['auth:user']], function(){
     Route::post('/like/{id}', [\App\Http\Controllers\LikeController::class, 'like']);
 });

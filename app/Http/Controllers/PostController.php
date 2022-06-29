@@ -43,20 +43,20 @@ class PostController extends Controller
         ]);
 
 
-        $flower_id = Auth::user()->id;     // Auth::user()->使用者某欄資料
+        $user_id = Auth::user()->id;     // Auth::user()->使用者某欄資料
 
         $Create=Post::create([
             'title' => $request['title'],
             'content' => $request['content'],
-            'flower_id' => $flower_id,
+            'user_id' => $user_id,
         ]);
 
-        $flower_name= Auth::user()->name;
+        $user_name= Auth::user()->name;
         $msg = $request->only(['title','content']);    
 
 
         if ($Create)
-            return response([$flower_name, $msg]);
+            return response([$user_name, $msg]);
     }
 
     /**
@@ -67,8 +67,8 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        $flower_id=$id;
-        $post =Post::where('flower_id',$flower_id)->get();
+        $user_id=$id;
+        $post =Post::where('user_id',$user_id)->get();
 
         if(!is_null($post)) {
             return response(['data' => $post]);
@@ -100,12 +100,12 @@ class PostController extends Controller
     {
         //
         $post = Post::find($id);
-        $flower_id=Auth::user()->id;   
+        $user_id=Auth::user()->id;   
         // 提取當前使用者的 id  
         if($post == null){
             return response((['msg' => '留言不存在']));
         }
-        if ($flower_id == $post->flower_id ){
+        if ($user_id == $post->user_id ){
             $update = $post->update($request->only(['title','content']));
 
             return response(['msg' => '留言內容已更新', 'data' => $update]);
@@ -124,12 +124,12 @@ class PostController extends Controller
     public function destroy($id)
     {
         $post = Post::find($id);
-        $flower_id=Auth::user()->id;
+        $user_id=Auth::user()->id;
 
         if($post == null){
             return response((['msg' => '留言不存在']));
         }
-        if($flower_id == $post->flower_id){
+        if($user_id == $post->user_id){
             $post->delete();
             return response(['msg' => '留言已刪除']);
         }

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin;
-use App\Models\Flower;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Str;
@@ -31,7 +31,7 @@ class AdminController extends Controller
 
     public function show()
     {
-       return Flower::all();     // 查詢所有的花兒（會員）資料
+       return User::all();     // 查詢所有的花兒（會員）資料
     }
 
 
@@ -49,8 +49,8 @@ class AdminController extends Controller
 
     public function destroy($id)        // 需指定型態，用花兒（會員）的id 做辨識
     {
-        $flower = Flower::where('id',$id);     
-        if ($flower && $flower->delete()){
+        $user = User::where('id',$id);     
+        if ($user && $user->delete()){
             return '管理員已刪除' .$id;
         }
         else{
