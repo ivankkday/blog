@@ -14,7 +14,7 @@ class externalApi extends Command
      *
      * @var string
      */
-    protected $signature = 'testExternal';
+    protected $signature = 'testExternal {--H|health}';
 
     /**
      * The console command description.
@@ -41,7 +41,8 @@ class externalApi extends Command
      */
     public function handle()
     {
-        $response = $this->motcApiAuthService->test();
+        $health = $this->option('health') == true? true : false;
+        $response = $this->motcApiAuthService->test($health);
         return $response;
     }
 }
