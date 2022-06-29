@@ -5,18 +5,19 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Services\PostService;
 
 class PostController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    private $postService;
+
+    public function __construct(PostService $postService){
+        $this->postService = $postService;
+    }
+
     public function index()
     {
-        return response(['msg' =>Post::get()]);
+        return response(['msg' => $this->postService->index()]);
     }
 
     /**
@@ -41,20 +42,10 @@ class PostController extends Controller
             'title' => 'required|string|min:2|max:200',       // 標題要求格式或限制
             'content' => 'required|string|min:2|max:1000'     // 內文要求格式或限制
         ]);
-
-
-        $user_id = Auth::user()->id;     // Auth::user()->使用者某欄資料
-
-        $Create=Post::create([
-            'title' => $request['title'],
-            'content' => $request['content'],
-            'user_id' => $user_id,
-        ]);
-
-        $user_name= Auth::user()->name;
+        $flower_id = Auth::user()->id;     // Auth::user()->使用者某欄資料
+        $Create = $this->postService->store($request, $flower_id);
+        $flower_name= Auth::user()->name;
         $msg = $request->only(['title','content']);    
-
-
         if ($Create)
             return response([$user_name, $msg]);
     }
@@ -67,9 +58,7 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        $user_id=$id;
-        $post =Post::where('user_id',$user_id)->get();
-
+        $post = $this->postService->show($id);
         if(!is_null($post)) {
             return response(['data' => $post]);
         }
@@ -98,21 +87,8 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
-        $post = Post::find($id);
-        $user_id=Auth::user()->id;   
-        // 提取當前使用者的 id  
-        if($post == null){
-            return response((['msg' => '留言不存在']));
-        }
-        if ($user_id == $post->user_id ){
-            $update = $post->update($request->only(['title','content']));
-
-            return response(['msg' => '留言內容已更新', 'data' => $update]);
-
-        } else {
-            return response(['msg' => '留言更新失敗']);
-        }
+        $flower_id=Auth::user()->id;  
+        return $this->postService->update($request, $id, $flower_id);
     }
 
     /**
@@ -123,16 +99,8 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        $post = Post::find($id);
-        $user_id=Auth::user()->id;
 
-        if($post == null){
-            return response((['msg' => '留言不存在']));
-        }
-        if($user_id == $post->user_id){
-            $post->delete();
-            return response(['msg' => '留言已刪除']);
-        }
-        return response(['msg' => '留言刪除失敗']);
+        $flower_id=Auth::user()->id;
+        return $this->postService->destroy($id, $flower_id);
     }
 }

@@ -16,25 +16,17 @@ use Illuminate\Support\Facades\Route;
 // User就是User
 Route::post('/user',[\App\Http\Controllers\UserController::class, 'store']);//註冊
 
-Route::post('/user/login',[\App\Http\Controllers\UserLoginController::class,'UserLogin']);//登入
-Route::get('/user', [\App\Http\Controllers\UserController::class, 'index']);
-Route::get('/user{id}', [\App\Http\Controllers\UserLoginController::class,'show']);
+Route::get('/flower', [\App\Http\Controllers\FlowerController::class, 'index']);
 
-Route::group(['middleware' => ['auth:api']], function(){
-    Route::put('/user', [\App\Http\Controllers\UserLoginController::class,'update']);
-    Route::delete('/user/{id}', [\App\Http\Controllers\UserLoginController::class,'destroy']);
-    // Route::get('/user','UserLogoutController@UserLogout');
+Route::group(['middleware' => ['auth:flower']], function(){
+    Route::delete('/flower/{id}', [\App\Http\Controllers\FlowerController::class,'destroy']);
  });
 
 Route::post('/admin',[\App\Http\Controllers\AdminController::class, 'store']);//註冊
 
-Route::post('/admin/login',[\App\Http\Controllers\UserLoginController::class,'UserLogin']);//登入
 
 Route::group(['middleware' => ['auth:api']], function(){
-    Route::get('/admin', [\App\Http\Controllers\AdminLoginController::class,'show']);
-    Route::put('/admin', [\App\Http\Controllers\AdminLoginController::class,'update']);
-    Route::delete('/admin/{id}', [\App\Http\Controllers\AdminLoginController::class,'destroy']);
-    // Route::get('/user','UserLogoutController@UserLogout');
+    Route::delete('/admin/{id}', [\App\Http\Controllers\AdminController::class,'destroy']);
 });
  
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
