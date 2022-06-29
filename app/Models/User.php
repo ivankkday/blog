@@ -2,43 +2,35 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Model;
 
-class User extends Authenticatable
+class User extends Model
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasFactory;
+    protected $fillable = [          // 使用批量分配（ Mass Assignment ）的填充白名單
+        'name', 'email', 'password', 'api_token'
+    ];
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    protected $fillable = [
-        'name',
-        'email',
+    protected $hidden = [           // 隱藏 model 的陣列或 JSON 的屬性 
         'password',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+    public function profile()
+    {
+        // 每個 User 都有 Profile（正向關係）
+        return $this->hasOne('App\Models\Profile'); 
+    }
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    public function post()
+    {
+        // 每種 users 有數種 nutrients
+        // 締結 單一 User 對 多 Nutrient 的關係(正向)
+        return $this->hasMany('App\Models\Post');
+    }
+
+    public function Comment(){
+
+        return $this->hasMany('App\Models\Comment');
+    }
 }

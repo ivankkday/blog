@@ -8,14 +8,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Post extends Model
 {
     use SoftDeletes;
-    protected $fillable = ['title', 'content', 'flower_id'];
+    protected $fillable = ['title', 'content', 'user_id'];
     protected $casts = [
         'likes' => 'collection'
     ];
-    public function flower()
+    public function user()
     {
-        // 不同的 posts 為同一個 flower發布的
-        return $this->belongsTo('App\Models\Flower');
+        // 不同的 posts 為同一個 user發布的
+        return $this->belongsTo('App\Models\User');
     }
 
     public function comment(){

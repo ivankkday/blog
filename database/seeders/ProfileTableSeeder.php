@@ -19,7 +19,7 @@ class ProfileTableSeeder extends Seeder
         DB::table('profiles')->insert([
             [
                 'personality'=>'abc',
-                'flower_id'=>'2',
+                'user_id'=>'2',
                 'created_at'=>Carbon::now(),    
                 // 對應 timestamps 的 created_at 列位
                 'updated_at'=>Carbon::now(),    
@@ -27,19 +27,19 @@ class ProfileTableSeeder extends Seeder
             ],
             [
                 'personality'=>'fgchvjko',
-                'flower_id'=>'3',
+                'user_id'=>'3',
                 'created_at' =>Carbon::now(),
                 'updated_at'=>Carbon::now(),
             ],
             [
                 'personality'=>'fgchvfvdse',
-                'flower_id'=>'4',
+                'user_id'=>'4',
                 'created_at' =>Carbon::now(),
                 'updated_at'=>Carbon::now(),
             ],
             [
                 'personality'=>'rgdfss',
-                'flower_id'=>'5',
+                'user_id'=>'5',
                 'created_at' =>Carbon::now(),
                 'updated_at'=>Carbon::now(),
             ]
