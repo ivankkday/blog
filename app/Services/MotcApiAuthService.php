@@ -8,12 +8,15 @@ class MotcApiAuthService{
     const MOTC_ID="449486a53acf442181ec5aa06db7c2f9";
     const MOTC_KEY='EJs6O1ss8BTkgqR11mIQAw9OAPg';
 
-    public function test($health){
+    public function test($health, $format){
        
         $params['request_method'] = 'GET';
         $params['uri'] = self::MOTC_API_URL.'/v2/Rail/THSR/DailyTimetable/TrainDates';
         $params['options'] = [
-            "query" => ['health' => $health? "true":"false"],
+            "query" => [
+                'health' => $health? "true":"false",
+                '$format' => $format
+                ],
             "headers" => $this->getHeaders(),
             "http_errors" => false,
             ];
