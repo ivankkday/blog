@@ -18,14 +18,14 @@ class MotcApiAuthService{
             ];
         
         $response = RequestHelper::sendRequest($params);
-        echo "\n".$response->getBody();
-        // return $response;
+        echo $response->getBody();
+        // return $response->getBody();
     }
     public function authorize($xdate){
         return 'hmac username="'.self::MOTC_ID.'",algorithm="hmac-sha1",headers="x-date",signature="'.$this->signature($xdate).'"';
     }
     public function signature($xdate){
-        return base64_encode(hash_hmac('sha1', "x-date:".$xdate, self::MOTC_KEY, true));
+        return base64_encode(hash_hmac('sha1', "x-date: ".$xdate, self::MOTC_KEY, true));
     }
 
     public function getHeaders(){

@@ -1,6 +1,10 @@
 <?php
 namespace App\Helpers;
 
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Middleware;
+use Illuminate\Support\Facades\Log;
+use GuzzleHttp\MessageFormatter;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Facade;
 
@@ -10,9 +14,9 @@ class RequestHelper extends Facade{
         $client = new Client();
         $response = $client->request(
             $params['request_method'],
-            $params['base_uri'], 
+            $params['uri'], 
             $params['options']
         );
-        return $response->getBody();
+        return $response;
     }
 }
