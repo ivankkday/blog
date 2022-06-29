@@ -24,8 +24,7 @@ class MotcApiAuthService{
     public function authorize($xdate){
         return 'hmac username="'.self::MOTC_ID.'",algorithm="hmac-sha1",headers="x-date",signature="'.$this->signature($xdate).'"';
     }
-    public function signature(){
-        $xdate = "x-date:".$this->getXDate();
+    public function signature($xdate){
         return base64_encode(hash_hmac('sha1', "x-date:".$xdate, self::MOTC_KEY, true));
     }
 
