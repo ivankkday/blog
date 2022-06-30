@@ -7,9 +7,9 @@ class PostRepository{
 
     private $post;
 
-    public function __construct(Post $post)
+    public function __construct()
     {
-        $this->post = $post;
+        $this->post = new Post();
     }
 
     public function create($request, $flower_id){

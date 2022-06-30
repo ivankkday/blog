@@ -18,6 +18,11 @@ class PostService{
         $Create = $this->postRepo->create($request, $flower_id);
         return $Create;
     }
+    public function create($request, $id){
+        $flower_id = $id;
+        $Create = $this->postRepo->create($request, $flower_id);
+        return $Create;
+    }
 
     public function show($id){
         return $this->postRepo->show($id);
