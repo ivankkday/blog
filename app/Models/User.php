@@ -4,9 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Model
 {
+    use SoftDeletes;
     use HasFactory;
     protected $fillable = [          // 使用批量分配（ Mass Assignment ）的填充白名單
         'name', 'email', 'password', 'api_token'
