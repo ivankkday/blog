@@ -35,7 +35,8 @@ class PostController extends AdminController
         $grid->column('user_id', __('User id'))
             ->style('max-width:55px;word-break:break-all;');
         $grid->column('created_at', __('發佈時間'));
-        $grid->column('updated_at', __('更新時間'));
+        $grid->column('updated_at', __('更新時間'))
+        ->sortable();
         $grid->column('deleted_at', __('刪除時間'));
         $grid->column('likes', __('Likes'))
             ->sortable();
