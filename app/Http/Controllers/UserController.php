@@ -3,20 +3,20 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Services\FlowerService;
+use App\Services\UserService;
 
 class UserController extends Controller
 {
     
-    private $flowerService;
+    private $userService;
 
-    public function __construct(FlowerService $flowerService){
-        $this->flowerService = $flowerService;
+    public function __construct(UserService $userService){
+        $this->userService = $userService;
     }
 
     public function index()
     {
-        return $this->flowerService->index();
+        return $this->userService->index();
     }
 
     /**
@@ -29,10 +29,10 @@ class UserController extends Controller
     {
         $request->validate([//驗證規則
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'unique:flowers'],
+            'email' => ['required', 'string', 'email', 'unique:users'],
             'password' => ['required', 'string', 'min:6','max:12'],
         ]);
-        $Create = $this->flowerService->create($request);
+        $Create = $this->userService->create($request);
         if($Create)
             return "註冊成功...$Create->api_token";
     }
@@ -52,7 +52,7 @@ class UserController extends Controller
             'email' => 'unique:users|email',
             'password',
         ]);
-        $this->flowerService->update($request);
+        $this->userService->update($request);
         return  $request->all();
     }
 
@@ -64,6 +64,6 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        return $this->flowerService->destroy($id);
+        return $this->userService->destroy($id);
     }
 }

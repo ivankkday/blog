@@ -7,16 +7,16 @@ class PostRepository{
 
     private $post;
 
-    public function __construct()
+    public function __construct(Post $post)
     {
-        $this->post = new Post();
+        $this->post = $post;
     }
 
-    public function create($request, $flower_id){
+    public function create($request, $user_id){
         $post = new $this->post;
         $post->title = $request['title'];
         $post->content = $request['content'];
-        $post->flower_id = $flower_id;
+        $post->user_id = $user_id;
         $post->save();
         return $post->fresh();
     }
@@ -28,7 +28,7 @@ class PostRepository{
 
     public function show($id){
         return $this->post
-            ->where('flower_id', $id)
+            ->where('user_id', $id)
             ->get();
     }
 

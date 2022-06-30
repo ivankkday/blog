@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Flower extends Model
+class User extends Model
 {
     use HasFactory;
     use SoftDeletes;
@@ -21,14 +21,14 @@ class Flower extends Model
 
     public function profile()
     {
-        // 每個 Flower 都有 Profile（正向關係）
+        // 每個 User 都有 Profile（正向關係）
         return $this->hasOne('App\Models\Profile'); 
     }
 
     public function post()
     {
-        // 每種 flowers 有數種 nutrients
-        // 締結 單一 Flower 對 多 Nutrient 的關係(正向)
+        // 每種 users 有數種 nutrients
+        // 締結 單一 User 對 多 Nutrient 的關係(正向)
         return $this->hasMany('App\Models\Post');
     }
 

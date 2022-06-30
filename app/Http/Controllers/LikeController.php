@@ -13,8 +13,8 @@ class LikeController extends Controller {
     }
     
     public function like($id){
-        $flower_id=Auth::user()->id;
-        $response = $this->postService->like($id, $flower_id);
+        $user_id=Auth::user()->id;
+        $response = $this->postService->like($id, $user_id);
         return $response;
     }
 }

@@ -42,9 +42,9 @@ class PostController extends Controller
             'title' => 'required|string|min:2|max:200',       // 標題要求格式或限制
             'content' => 'required|string|min:2|max:1000'     // 內文要求格式或限制
         ]);
-        $flower_id = Auth::user()->id;     // Auth::user()->使用者某欄資料
-        $Create = $this->postService->store($request, $flower_id);
-        $flower_name= Auth::user()->name;
+        $user_id = Auth::user()->id;     // Auth::user()->使用者某欄資料
+        $Create = $this->postService->store($request, $user_id);
+        $user_name= Auth::user()->name;
         $msg = $request->only(['title','content']);    
         if ($Create)
             return response([$user_name, $msg]);
@@ -87,8 +87,8 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $flower_id=Auth::user()->id;  
-        return $this->postService->update($request, $id, $flower_id);
+        $user_id=Auth::user()->id;  
+        return $this->postService->update($request, $id, $user_id);
     }
 
     /**
@@ -100,7 +100,7 @@ class PostController extends Controller
     public function destroy($id)
     {
 
-        $flower_id=Auth::user()->id;
-        return $this->postService->destroy($id, $flower_id);
+        $user_id=Auth::user()->id;
+        return $this->postService->destroy($id, $user_id);
     }
 }

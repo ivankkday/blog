@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Models\Flower;
+use App\Models\User;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use App\Services\PostService;
@@ -31,10 +31,10 @@ class AutoPost extends Command
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(PostService $postService)
     {
         parent::__construct();
-        $this->postService = new PostService();
+        $this->postService = $postService;
     }
 
     /**
@@ -45,12 +45,12 @@ class AutoPost extends Command
     public function handle()
     {
         $num = $this->argument('numOfPost');
-        $ids = Flower::all()->map(function($flower){
-            return $flower->only(['id']);
+        $ids = User::all()->map(function($user){
+            return $user->only(['id']);
         })->flatten()->toArray();
 
-        // $apiTokens = Flower::all()->map(function($flower){
-        //     return $flower->only(['api_token']);
+        // $apiTokens = User::all()->map(function($user){
+        //     return $user->only(['api_token']);
         // })->flatten()->toArray();
         for($x = 0; $x < $num; $x++){
             $request = collect([

@@ -16,10 +16,10 @@ use Illuminate\Support\Facades\Route;
 // User就是User
 Route::post('/user',[\App\Http\Controllers\UserController::class, 'store']);//註冊
 
-Route::get('/flower', [\App\Http\Controllers\FlowerController::class, 'index']);
+Route::get('/user', [\App\Http\Controllers\UserController::class, 'index']);
 
-Route::group(['middleware' => ['auth:flower']], function(){
-    Route::delete('/flower/{id}', [\App\Http\Controllers\FlowerController::class,'destroy']);
+Route::group(['middleware' => ['auth:user']], function(){
+    Route::delete('/user/{id}', [\App\Http\Controllers\UserController::class,'destroy']);
  });
 
 Route::post('/admin',[\App\Http\Controllers\AdminController::class, 'store']);//註冊
