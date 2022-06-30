@@ -34,7 +34,7 @@ class UserController extends AdminController
         $grid->column('updated_at', __('Updated at'));
         $grid->column('api_token', __('Api token'));
         $grid->column('deleted_at', __('Deleted at'));
-
+        $grid->column('profile.personality');
         return $grid;
     }
 
@@ -73,7 +73,7 @@ class UserController extends AdminController
         $form->email('email', __('Email'));
         $form->password('password', __('Password'));
         $form->text('api_token', __('Api token'));
-
+        $form->text('profile.personality');
         return $form;
     }
 }

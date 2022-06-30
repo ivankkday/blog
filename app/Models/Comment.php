@@ -9,6 +9,7 @@ class Comment extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['user_id', 'content'];
     public function post()
     {
         // 不同的 comments 為回覆同一個 post

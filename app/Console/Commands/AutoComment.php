@@ -2,21 +2,22 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Post;
 use Illuminate\Console\Command;
 use App\Models\User;
 use Illuminate\Support\Str;
-use App\Services\PostService;
+use App\Services\CommentService;
 
-class AutoPost extends Command
+class AutoComment extends Command
 {
-    private $postService;
+    private $commentService;
 
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'autoPost {numOfPost}';
+    protected $signature = 'autoComment {numOfComment}';
 
     /**
      * The console command description.
@@ -30,10 +31,10 @@ class AutoPost extends Command
      *
      * @return void
      */
-    public function __construct(PostService $postService)
+    public function __construct(CommentService $commentService)
     {
         parent::__construct();
-        $this->postService = $postService;
+        $this->commentService = $commentService;
     }
 
     /**
@@ -43,28 +44,21 @@ class AutoPost extends Command
      */
     public function handle()
     {
-        $num = $this->argument('numOfPost');
+        $num = $this->argument('numOfComment');
         $ids = User::all()->map(function($user){
             return $user->only(['id']);
         })->flatten()->toArray();
-
-        // $apiTokens = User::all()->map(function($user){
-        //     return $user->only(['api_token']);
-        // })->flatten()->toArray();
+        $post_ids = Post::all()->map(function($post){
+            return $post->only(['id']);
+        })->flatten()->toArray();
         for($x = 0; $x < $num; $x++){
             $request = collect([
-                'title' => 'title' .' '. Str::random(10),
+                'post_id' => $post_ids[array_rand($post_ids)],
                 'content' => 'content' .' '. Str::random(10),
             ]);
             $id = $ids[array_rand($ids)];
-            $response = $this->postService->create($request, $id);
-            // $response = Http::withToken($apiTokens[array_rand($apiTokens)])
-            // ->post('http://blog.test/api/post', [
-            //     'form_params'=>[
-            //         'title'=> $title,
-            //         'content'=> $content
-            //     ]
-            // ])->body();
+            $response = $this->commentService->create($request, $id);
+            sleep(rand(0,10));
         }
         return 0;
     }
