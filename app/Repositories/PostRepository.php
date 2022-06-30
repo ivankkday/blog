@@ -17,6 +17,7 @@ class PostRepository{
         $post->title = $request['title'];
         $post->content = $request['content'];
         $post->user_id = $user_id;
+        $post->likes = '[]';
         $post->save();
         return $post->fresh();
     }

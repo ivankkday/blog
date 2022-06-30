@@ -60,19 +60,19 @@ class PostService{
 
     public function like($id, $user_id){
         $post = $this->postRepo->get($id);
-        $likeCollection = collect($post->likes);
-        if(!$likeCollection->contains($user_id)){
-            $likeCollection->push($user_id);
-            $post->likes = $likeCollection;
-            $post->save();
-            return response(['msg' => '已按讚']);
+        $likes = $post->likes == 'null' ? 
+            [] : json_decode($post->likes);
+        // echo $likes;
+        if(!in_array($user_id, $likes)){
+            array_push($likes, $user_id);
+            $post->likes = json_encode($likes);
+            $msg = ['msg' => '已按讚'];
         }
         else{
-            $post->likes = $likeCollection->reject(function($element)use($user_id){
-                return $element == $user_id;
-            });
-            $post->save();
-            return response(['msg' => '已取消按讚']);
-        }
+            $post->likes = json_encode(array_diff($likes, [$user_id]));
+            $msg = ['msg' => '已取消按讚'];
+        } 
+        $post->save();
+        return response($msg);
     }
 }
